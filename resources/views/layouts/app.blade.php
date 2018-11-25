@@ -7,7 +7,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Balo') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -75,21 +75,39 @@
         
          <div class="container">
              <div class="row">
-                 <div class="col-lg-12">
+                 @if(Auth::check())
+                 <div class="col-lg-4">
 
-                     <ul class="group-list">
-                     <li class="list-group-item">
-                            <a href="/home">Home</a>
+                        <ul class="group-list">
+                        <li class="list-group-item">
+                               <a href="{{route('home')}}">Home</a>
+                       </li>
+                       <li class="list-group-item">
+                            <a href="{{route('categories')}}">Categories</a>
                     </li>
-                         <li class="list-group-item">
-                                
+                      
+                       <li class="list-group-item">
+                              
 
-                             <a href="/posts/create">Create new post</a>
+                           <a href="{{route('category.create')}}">Create new category</a>
+  
+                           </li>
+                            <li class="list-group-item">
+                                   
+   
+                            <a href="{{route('post.create')}}">Create new post</a>
+   
+                            </li>
 
-                         </li>
+                           
+   
+                        </ul>
+                 
+                
 
-                     </ul>
-
+                    
+                 </div>
+                 @endif
                      <div class="col-lg-12">
                          @yield('content')
                      </div>
@@ -98,5 +116,6 @@
          </div>
       
     </div>
+    <script src="/js/app.js"></script>
 </body>
 </html>

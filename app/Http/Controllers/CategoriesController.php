@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+use categories;
 
 use Illuminate\Http\Request;
+use App\Category;
 
-class PostsController extends Controller
+class CategoriesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +15,7 @@ class PostsController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.categories.index')->with('categories',Category::all());
     }
 
     /**
@@ -23,7 +25,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+       return view('admin.categories.create');
     }
 
     /**
@@ -34,13 +36,14 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-      
         $this->validate($request,[
-            'title'=>'required',
-            'featured'=>'required | image' ,
-            'content'=>'required'
+            'name' =>'required'
         ]);
-        dd($request->all()); 
+       $category =new Category;
+       $category->name=$request->name;
+       $category->save();
+
+       return redirect()->route('categories');
     }
 
     /**
@@ -62,7 +65,8 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+         $category=Category::find($id);
+         return view('admin.categories.edit')->with('category',$category);
     }
 
     /**
@@ -74,7 +78,10 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $category=Category::find($id);
+        $category->name =$request->name;
+        $category->save();
+        return redirect()->route('categories');
     }
 
     /**
@@ -85,6 +92,8 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $category=\App\Category::find($id);
+      $category->delete();
+      return redirect('admin/categories');
     }
 }
